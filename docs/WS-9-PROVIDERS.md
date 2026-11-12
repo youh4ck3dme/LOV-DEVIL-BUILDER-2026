@@ -22,6 +22,18 @@ server. Transport vyžaduje HTTPS bez userinfo, query a fragmentu a odmieta
 presmerovanie. `PROVIDER_TIMEOUT_MS` je 100–120000 ms, default 120000; zároveň
 platí celkový request deadline.
 
+Voliteľné `MISTRAL_AGENT_ID` (tvar `ag:` + 8–64 hex znakov alebo pomlčiek) prepne
+primárny Mistral vstup z `/v1/chat/completions` na `/v1/agents/completions`.
+Telo obsahuje `agent_id` a neobsahuje `model`. Neplatný tvar skončí
+`invalid_provider_configuration` ešte pred sieťou. Doplnkové karty
+(`codestral` → `codestral-latest`, `mistral-large` → `mistral-large-latest`,
+`mistral-small` → `mistral-small-latest`) sa pridajú len keď ich oficiálny
+katalóg vidí podľa `id` alebo `aliases`. Tieto extra položky idú vždy cez
+`/v1/chat/completions`, aj keď primárny vstup je agent. Ponuka má strop 3 modely.
+Spotreba agenta sa v cenníku neocení: účtovaný model je samotné `ag:…` a pre
+tento identifikátor nie je sadzba, takže odhad ceny zostane neznámy
+(`no_effective_rate`), nikdy nula a nikdy sadzba chat modelu.
+
 Autentifikovaný `GET /api/ai-models` vracia validovaný no-store katalóg bez
 Secrets alebo endpointov. Existujúci model chip hlavného UI načíta skutočné
 zapnuté modely. Instant Draft zostáva dostupný bez AI. Neplatný/starý výber

@@ -146,9 +146,9 @@ test('M1.1 editor: všetkých 8 tabov prístupných (blueprints/prompts/team/gal
     await page.click(`[data-edtab="${tab}"]`);
     await expect(page.locator(`.ed-pane[data-edpane="${tab}"]`)).toBeVisible();
   }
-  // Aktuálna galéria obsahuje 12 skutočných projektových šablón.
+  // Aktuálna galéria obsahuje 19 skutočných projektových šablón.
   await page.click('[data-edtab="blueprints"]');
-  await expect(page.locator('.template-card')).toHaveCount(12);
+  await expect(page.locator('.template-card')).toHaveCount(19);
   await expect(page.locator('.template-card').first()).toContainText(/SaaS/i);
   // prompts: 8 kariet
   await page.click('[data-edtab="prompts"]');
